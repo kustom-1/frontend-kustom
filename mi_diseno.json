@@ -1,0 +1,18 @@
+{
+  "baseModel": "/scene.gltf",
+  "baseColor": "#FFFFFF",
+  "decal": {
+    "imageUrl": "/logo1.png",
+    "position": [
+      -1434.753982498792,
+      1263.7460774240117,
+      -2416.850392234702
+    ],
+    "rotation": [
+      0,
+      0,
+      0
+    ],
+    "scale": 300
+  }
+}
