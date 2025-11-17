@@ -17,10 +17,10 @@ const SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
  */
 export async function PUT(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     const token = req.cookies.get("kustom_token")?.value;
-    const userIdToUpdate = params.id;
+    const { id: userIdToUpdate } = await context.params;
 
     if (!token) {
         return NextResponse.json({ message: "No autorizado" }, { status: 401 });
@@ -70,10 +70,10 @@ export async function PUT(
  */
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     const token = req.cookies.get("kustom_token")?.value;
-    const userIdToDelete = params.id;
+    const { id: userIdToDelete } = await context.params;
 
     if (!token) {
         return NextResponse.json({ message: "No autorizado" }, { status: 401 });
