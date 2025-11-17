@@ -51,6 +51,10 @@ const processPermissions = (
         canCreateCloth: permSet.has("cloths:create"),
         canUpdateCloth: permSet.has("cloths:update"),
         canDeleteCloth: permSet.has("cloths:delete"),
+        canReadStocks: permSet.has("stocks:read"),
+        canCreateStock: permSet.has("stocks:create"),
+        canUpdateStock: permSet.has("stocks:update"),
+        canDeleteStock: permSet.has("stocks:delete"),
     };
 };
 

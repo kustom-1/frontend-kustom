@@ -174,7 +174,12 @@ export function CategoryClient() {
         </div>
 
         {/* --- La Tabla de Datos --- */}
-        <DataTable columns={columns} data={categories || []} />
+        <DataTable
+          columns={columns}
+          data={categories || []}
+          filterColumn="name" // <--- NUEVO
+          filterPlaceholder="Filtrar por nombre..."
+        />
       </div>
 
       {/* --- Panel Lateral (Sheet) para Crear/Editar --- */}

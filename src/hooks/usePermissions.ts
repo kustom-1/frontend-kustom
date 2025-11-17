@@ -22,6 +22,10 @@ const defaultPermissions: AppPermissions = {
     canCreateCloth: false,
     canUpdateCloth: false,
     canDeleteCloth: false,
+    canReadStocks: false,
+    canCreateStock: false,
+    canUpdateStock: false,
+    canDeleteStock: false,
 };
 
 /**

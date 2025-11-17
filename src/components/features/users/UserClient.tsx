@@ -168,7 +168,12 @@ export function UserClient() {
         </div>
 
         {/* --- La Tabla de Datos --- */}
-        <DataTable columns={columns} data={users || []} />
+        <DataTable
+          columns={columns}
+          data={users || []}
+          filterColumn="email" // <--- NUEVO
+          filterPlaceholder="Filtrar por email..."
+        />
       </div>
 
       {/* --- Panel Lateral (Sheet) para Crear/Editar --- */}

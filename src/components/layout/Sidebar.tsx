@@ -11,6 +11,7 @@ import {
   ShieldAlert,
   LayoutGrid,
   Shirt,
+  Warehouse,
 } from "lucide-react"; // <-- Importar ShieldAlert
 import { usePermissions } from "@/hooks/usePermissions";
 import { cn } from "@/lib/utils";
@@ -121,6 +122,12 @@ export function Sidebar() {
               {permissions.canReadCloths && (
                 <NavLink href="/dashboard/cloths" icon={Shirt}>
                   Prendas
+                </NavLink>
+              )}
+
+              {permissions.canReadStocks && (
+                <NavLink href="/dashboard/stocks" icon={Warehouse}>
+                  Inventario (Stock)
                 </NavLink>
               )}
             </>

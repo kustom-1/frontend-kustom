@@ -108,6 +108,12 @@ export type AppPermissions = {
     canCreateCloth: boolean;
     canUpdateCloth: boolean;
     canDeleteCloth: boolean;
+
+    // Permisos de Stocks
+    canReadStocks: boolean;
+    canCreateStock: boolean;
+    canUpdateStock: boolean;
+    canDeleteStock: boolean;
 };
 
 // --- Tipos de Categoría ---
@@ -145,3 +151,25 @@ export type CreateClothDto = {
 
 // (Basado en UpdateClothDto del OAS, que está vacío)
 export type UpdateClothDto = Partial<CreateClothDto>;
+
+// --- Tipos de Stock ---
+// (Basado en CreateStockDto del OAS)
+export type CreateStockDto = {
+    gender?: string;
+    color?: string;
+    size?: string;
+    stock: number;
+    cloth: number; // ID de la Prenda
+};
+
+// (Asumimos que el DTO de respuesta es similar)
+export type Stock = {
+    id: number;
+    gender?: string;
+    color?: string;
+    size?: string;
+    stock: number;
+    cloth: Cloth; // <-- Asumimos que la respuesta trae el objeto 'Cloth' anidado
+};
+
+export type UpdateStockDto = Partial<CreateStockDto>;
