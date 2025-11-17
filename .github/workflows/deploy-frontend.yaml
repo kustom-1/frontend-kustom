@@ -23,7 +23,7 @@ on:
 jobs:
   deploy:
     name: Deploy Next.js Application
-    uses: ./.github/workflows/deploy-backend-reusable.yml
+    uses: kustom-1/workflows/.github/workflows/upload-artifact.yaml@main
     with:
       environment: ${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'prod' }}
       version_tag: ${{ inputs.version_tag || 'latest' }}
@@ -31,9 +31,9 @@ jobs:
       node_version: '20.x'
       app_name: nextjs-app
       build_command: npm run build
-      artifact_path: .next  # Next.js usa .next en lugar de dist
+      artifact_path: .next 
       s3_artifact_prefix: frontend
-      asg_suffix: nextjs-asg
+      asg_suffix: presentation-asg
       working_directory: .
       health_check_path: /api/health
       log_path: /var/log/nextjs-app/
