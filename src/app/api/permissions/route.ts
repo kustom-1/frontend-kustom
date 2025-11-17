@@ -43,6 +43,14 @@ const processPermissions = (
         canManageUserRoles: canManageUserRoles,
         canReadRoles: permSet.has("roles:read"),
         canUpdateRoles: permSet.has("roles:update"),
+        canReadCategories: permSet.has("categories:read"),
+        canCreateCategory: permSet.has("categories:create"),
+        canUpdateCategory: permSet.has("categories:update"),
+        canDeleteCategory: permSet.has("categories:delete"),
+        canReadCloths: permSet.has("cloths:read"),
+        canCreateCloth: permSet.has("cloths:create"),
+        canUpdateCloth: permSet.has("cloths:update"),
+        canDeleteCloth: permSet.has("cloths:delete"),
     };
 };
 

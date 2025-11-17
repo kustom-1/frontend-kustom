@@ -91,12 +91,57 @@ export type AppPermissions = {
     canCreateUser: boolean;
     canUpdateUser: boolean;
     canDeleteUser: boolean;
-    // Regla de negocio especial
     canManageUserRoles: boolean;
 
-    // Permisos de Roles (futuro)
+    // Permisos de Roles
     canReadRoles: boolean;
     canUpdateRoles: boolean;
 
-    // ...
+    // Permisos de Categorías
+    canReadCategories: boolean;
+    canCreateCategory: boolean;
+    canUpdateCategory: boolean;
+    canDeleteCategory: boolean;
+
+    // Permisos de Prendas
+    canReadCloths: boolean;
+    canCreateCloth: boolean;
+    canUpdateCloth: boolean;
+    canDeleteCloth: boolean;
 };
+
+// --- Tipos de Categoría ---
+export type Category = {
+    id: number;
+    name: string;
+    description?: string;
+};
+
+export type CreateCategoryDto = {
+    name: string;
+    description?: string;
+};
+
+
+// --- Tipos de Prendas (Cloths) ---
+
+export type Cloth = {
+    id: number;
+    name: string;
+    category: Category; // ID de la categoría
+    basePrice?: number;
+    description?: string;
+    modelUrl?: string;
+};
+
+// (Basado en CreateClothDto del OAS)
+export type CreateClothDto = {
+    name: string;
+    category: number | string; // ID de la categoría
+    basePrice?: number;
+    description?: string;
+    modelUrl?: string;
+};
+
+// (Basado en UpdateClothDto del OAS, que está vacío)
+export type UpdateClothDto = Partial<CreateClothDto>;

@@ -17,7 +17,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         <SessionLoader>
           {children}
-          <Toaster richColors /> {/* <-- 2. Añadir Toaster */}
+          <Toaster position="top-right" richColors /> {/* <-- 2. Añadir Toaster */}
         </SessionLoader>
       </QueryClientProvider>
     </ReduxProvider>

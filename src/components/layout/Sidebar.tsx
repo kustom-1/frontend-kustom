@@ -4,7 +4,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Users, Shield, ShieldAlert } from "lucide-react"; // <-- Importar ShieldAlert
+import {
+  Home,
+  Users,
+  Shield,
+  ShieldAlert,
+  LayoutGrid,
+  Shirt,
+} from "lucide-react"; // <-- Importar ShieldAlert
 import { usePermissions } from "@/hooks/usePermissions";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -102,6 +109,18 @@ export function Sidebar() {
               {permissions.canReadRoles && (
                 <NavLink href="/dashboard/roles" icon={Shield}>
                   Roles y Permisos
+                </NavLink>
+              )}
+
+              {permissions.canReadCategories && (
+                <NavLink href="/dashboard/categories" icon={LayoutGrid}>
+                  Categorías
+                </NavLink>
+              )}
+
+              {permissions.canReadCloths && (
+                <NavLink href="/dashboard/cloths" icon={Shirt}>
+                  Prendas
                 </NavLink>
               )}
             </>

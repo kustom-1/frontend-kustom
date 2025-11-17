@@ -1,9 +1,9 @@
-// src/app/api/users/[id]/route.ts
+// src/app/api/categories/[id]/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { api } from "@/lib/api";
-import { JwtPayload, User, UserRole } from "@/lib/definitions";
+import type { JwtPayload, Category, CreateCategoryDto } from "@/lib/definitions";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
@@ -18,64 +18,54 @@ function getIdFromUrl(pathname: string): string | undefined {
 }
 
 /**
- * PUT /api/users/[id]
+ * PUT /api/categories/[id]
  */
 export async function PUT(
     req: NextRequest
     // { params }: { params: { id: string } } // <-- Eliminamos params
 ) {
     const token = req.cookies.get("kustom_token")?.value;
-    let userIdToUpdate: string | undefined; // Declarar ID aquí
+    let categoryId: string | undefined; // Declarar ID aquí
 
     if (!token) {
         return NextResponse.json({ message: "No autorizado" }, { status: 401 });
     }
 
     try {
-        const { payload } = await jwtVerify<JwtPayload>(token, SECRET_KEY);
-        const requesterRole = payload.role;
-        const body: Partial<User> = await req.json(); // <-- Primer await
+        await jwtVerify<JwtPayload>(token, SECRET_KEY);
+        const body: Partial<CreateCategoryDto> = await req.json(); // Primer await
 
         // --- CORRECCIÓN ---
         // Obtenemos el ID desde la URL
-        userIdToUpdate = getIdFromUrl(req.nextUrl.pathname);
-        if (!userIdToUpdate || isNaN(Number(userIdToUpdate))) {
-            throw new Error("No se pudo leer un ID de usuario válido desde la URL.");
+        categoryId = getIdFromUrl(req.nextUrl.pathname);
+        if (!categoryId || isNaN(Number(categoryId))) {
+            throw new Error("No se pudo leer un ID de categoría válido desde la URL.");
         }
         // --- FIN CORRECCIÓN ---
 
-        if (requesterRole === UserRole.Auxiliar) {
-            if (body.role && body.role !== UserRole.Consultor) {
-                return NextResponse.json(
-                    { message: "No tienes permisos para asignar este rol" },
-                    { status: 403 }
-                );
-            }
-        }
-
-        const response = await api.put<User>(`/users/${userIdToUpdate}`, body, {
+        const response = await api.put<Category>(`/categories/${categoryId}`, body, {
             headers: { Authorization: `Bearer ${token}` },
         });
 
         return NextResponse.json(response.data);
 
     } catch (err: any) {
-        console.error(`Error en PUT /api/users/${userIdToUpdate || 'ID_DESCONOCIDO'}:`, err.message);
+        console.error(`Error en PUT /api/categories/${categoryId || 'ID_DESCONOCIDO'}:`, err.message);
         const status = err.response?.status || 500;
-        const message = err.response?.data?.message || "Error al actualizar usuario";
+        const message = err.response?.data?.message || "Error al actualizar categoría";
         return NextResponse.json({ message }, { status });
     }
 }
 
 /**
- * DELETE /api/users/[id]
+ * DELETE /api/categories/[id]
  */
 export async function DELETE(
     req: NextRequest
     // { params }: { params: { id: string } } // <-- Eliminamos params
 ) {
     const token = req.cookies.get("kustom_token")?.value;
-    let userIdToDelete: string | undefined; // Declarar ID aquí
+    let categoryId: string | undefined; // Declarar ID aquí
 
     if (!token) {
         return NextResponse.json({ message: "No autorizado" }, { status: 401 });
@@ -86,22 +76,22 @@ export async function DELETE(
 
         // --- CORRECCIÓN ---
         // Obtenemos el ID desde la URL
-        userIdToDelete = getIdFromUrl(req.nextUrl.pathname);
-        if (!userIdToDelete || isNaN(Number(userIdToDelete))) {
-            throw new Error("No se pudo leer un ID de usuario válido desde la URL.");
+        categoryId = getIdFromUrl(req.nextUrl.pathname);
+        if (!categoryId || isNaN(Number(categoryId))) {
+            throw new Error("No se pudo leer un ID de categoría válido desde la URL.");
         }
         // --- FIN CORRECCIÓN ---
 
-        await api.delete(`/users/${userIdToDelete}`, {
+        await api.delete(`/categories/${categoryId}`, {
             headers: { Authorization: `Bearer ${token}` },
         });
 
-        return NextResponse.json({ message: "Usuario eliminado" }, { status: 200 });
+        return NextResponse.json({ message: "Categoría eliminada" }, { status: 200 });
 
     } catch (err: any) {
-        console.error(`Error en DELETE /api/users/${userIdToDelete || 'ID_DESCONOCIDO'}:`, err.message);
+        console.error(`Error en DELETE /api/categories/${categoryId || 'ID_DESCONOCIDO'}:`, err.message);
         const status = err.response?.status || 500;
-        const message = err.response?.data?.message || "Error al eliminar usuario";
+        const message = err.response?.data?.message || "Error al eliminar categoría";
         return NextResponse.json({ message }, { status });
     }
 }

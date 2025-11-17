@@ -85,7 +85,7 @@ export default function Navbar() {
   return (
     <nav className="flex items-center justify-between p-4 px-8 border-b bg-background">
       <Link href="/" className="text-2xl font-bold text-primary">
-        Kustom.
+        Kustom
       </Link>
       {renderAuthLinks()}
     </nav>
