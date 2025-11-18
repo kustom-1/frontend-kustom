@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { authService } from "@/services/auth.service";
 import { logoutUser } from "@/store/slices/authSlice";
 import { UserRole } from "@/lib/definitions";
-import { LayoutDashboard, LogOut } from "lucide-react";
+import { LayoutDashboard, LogOut, ShoppingCart } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -52,6 +52,17 @@ export default function Navbar() {
           <span className="hidden sm:inline text-sm font-medium text-muted-foreground">
             Hola, {user.firstName}
           </span>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="text-muted-foreground"
+          >
+            <Link href="/cart">
+              <ShoppingCart className="h-5 w-5" />
+            </Link>
+          </Button>
 
           {canSeeDashboard && (
             <>
