@@ -13,7 +13,7 @@ if (!JWT_SECRET) {
 
 const SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
     const { pathname } = req.nextUrl;
     const token = req.cookies.get("kustom_token")?.value;
 
