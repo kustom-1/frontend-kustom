@@ -23,6 +23,8 @@ import {
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+console.log("Dashboard page loaded new code");
+
 export default function DashboardPage() {
   const user = useAppSelector((state) => state.auth.user);
   const { permissions, isLoading } = usePermissions();

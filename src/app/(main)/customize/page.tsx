@@ -54,7 +54,8 @@ async function measureImageAspectRatio(src: string) {
   });
 }
 // -------------------------
-
+console.log("Rendering Customize Page");
+console.log("Nuevo Código");
 export default function CustomizePage() {
   // --- 1. FETCH DATA ---
   const { data: cloths } = useQuery({

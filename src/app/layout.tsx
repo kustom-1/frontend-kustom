@@ -9,7 +9,6 @@ const inter = Inter({ subsets: ["latin"] });
 
 // 4. Se eliminó la creación de `new QueryClient()` de aquí
 // 5. Se eliminó la importación de `@/store/provider` (o Providers)
-
 export const metadata: Metadata = {
   title: "Kustom AI",
   description: "Personaliza tu ropa con IA",
