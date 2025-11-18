@@ -114,6 +114,11 @@ export type AppPermissions = {
     canCreateStock: boolean;
     canUpdateStock: boolean;
     canDeleteStock: boolean;
+
+    // Permisos de Images
+    canReadImages: boolean;
+    canCreateImage: boolean;
+    canDeleteImage: boolean;
 };
 
 // --- Tipos de Categoría ---
@@ -200,3 +205,82 @@ export type UpdateRolePermissionDto = Partial<CreateRolePermissionDto>;
 // (La respuesta de los helpers)
 export type ResourceList = string[];
 export type ActionList = string[];
+
+
+// --- Tipos del Personalizador (de la POC) ---
+export type Vector3Tuple = [number, number, number];
+
+export type DecalState = {
+    imageUrl: string | null;
+    position: Vector3Tuple;
+    rotation: Vector3Tuple; // almacenado en grados
+    scale: number; // 0-1+
+    aspectRatio: number; // width / height
+};
+
+export type CustomizationPayload = {
+    baseModel: string;
+    baseColor: string;
+    decal: DecalState | null;
+};
+
+export type SurfacePickResult = {
+    position: Vector3Tuple;
+    rotation: Vector3Tuple; // rotación alineada a la superficie
+};
+
+
+// --- Tipos de Imagen ---
+
+export type CreateImageDto = {
+    url: string,
+    description?: string,
+    cloth?: string,
+    tags: string[],
+    isPublic: boolean,
+    user?: number | null
+}
+
+export type ImageType = {
+    id: number,
+    url: string,
+    user: User | null,
+    tags: string[] | null,
+    isPublic: boolean,
+}
+
+export type UpdateImageDto = Partial<CreateImageDto>;
+
+export type DecalTransform = {
+    scale: number;
+    position: [number, number, number];
+    rotation: [number, number, number];
+    aspectRatio: number;
+};
+
+export type CreateDesignDto = {
+    name: string;       // <-- Añadido según tu requerimiento
+    description?: string; // <-- Añadido según tu requerimiento
+    user: number;       // ID del usuario
+    cloth: number;      // ID de la prenda
+    baseModel: number;  // ID de la imagen (modelo .glb)
+    decalImage: number; // ID de la imagen (decal)
+    decal: DecalTransform;
+    baseColor: string;
+    isPublic: boolean;
+    isActive: boolean;
+};
+
+export type Design = {
+    id: number;
+    name: string;
+    description?: string;
+    user: User;         // Objeto anidado en respuesta
+    cloth: Cloth;       // Objeto anidado
+    baseModel: ImageType;   // Objeto anidado
+    decalImage: ImageType;  // Objeto anidado
+    decal: DecalTransform;
+    baseColor: string;
+    isPublic: boolean;
+    isActive: boolean;
+};

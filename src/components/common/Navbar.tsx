@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { authService } from "@/services/auth.service";
 import { logoutUser } from "@/store/slices/authSlice";
+import { UserRole } from "@/lib/definitions";
 import { LayoutDashboard, LogOut } from "lucide-react";
 
 export default function Navbar() {
@@ -43,33 +44,40 @@ export default function Navbar() {
     }
 
     if (isAuthenticated && user) {
+      const canSeeDashboard =
+        user.role === UserRole.Coordinador || user.role === UserRole.Auxiliar;
+
       return (
         <div className="flex items-center gap-2 sm:gap-3">
           <span className="hidden sm:inline text-sm font-medium text-muted-foreground">
             Hola, {user.firstName}
           </span>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="sm:hidden text-muted-foreground"
-            asChild
-            aria-label="Ir al dashboard"
-          >
-            <Link href="/dashboard">
-              <LayoutDashboard className="h-4 w-4" />
-            </Link>
-          </Button>
-          <Button
-            variant="ghost"
-            className="hidden sm:inline-flex text-muted-foreground"
-            asChild
-          >
-            <Link href="/dashboard">
-              <LayoutDashboard className="h-4 w-4" />
-              <span className="ml-2">Dashboard</span>
-            </Link>
-          </Button>
+          {canSeeDashboard && (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="sm:hidden text-muted-foreground"
+                asChild
+                aria-label="Ir al dashboard"
+              >
+                <Link href="/dashboard">
+                  <LayoutDashboard className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button
+                variant="ghost"
+                className="hidden sm:inline-flex text-muted-foreground"
+                asChild
+              >
+                <Link href="/dashboard">
+                  <LayoutDashboard className="h-4 w-4" />
+                  <span className="ml-2">Dashboard</span>
+                </Link>
+              </Button>
+            </>
+          )}
 
           <Button
             variant="outline"
@@ -110,8 +118,8 @@ export default function Navbar() {
   };
 
   return (
-    <div className="sticky top-0 z-30 bg-background/80 backdrop-blur border-b">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-8 md:py-0 md:h-[60px]">
+    <div className="sticky top-0 z-60 bg-background/80 backdrop-blur border-b">
+      <nav className="flex w-full items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-0 md:h-[60px]">
         <Link href="/" className="text-2xl font-bold text-primary">
           Kustom
         </Link>

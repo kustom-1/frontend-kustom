@@ -67,7 +67,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="overflow-hidden rounded-2xl border bg-gradient-to-r from-primary/10 via-background to-background p-6 md:p-8">
+      <div className="overflow-hidden rounded-2xl border bg-linear-to-r from-primary/10 via-background to-background p-6 md:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
@@ -122,7 +122,7 @@ export default function DashboardPage() {
                   key={href}
                   className="group relative h-full overflow-hidden border hover:shadow-lg transition"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
                   <CardHeader className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">

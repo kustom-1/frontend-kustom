@@ -13,6 +13,7 @@ import {
   Shirt,
   Warehouse,
   Menu,
+  ImageIcon,
 } from "lucide-react"; // <-- Importar ShieldAlert
 import { usePermissions } from "@/hooks/usePermissions";
 import { cn } from "@/lib/utils";
@@ -120,6 +121,12 @@ export function Sidebar() {
             {permissions.canReadStocks && (
               <NavLink href="/dashboard/stocks" icon={Warehouse}>
                 Inventario (Stock)
+              </NavLink>
+            )}
+
+            {permissions.canReadImages && (
+              <NavLink href="/dashboard/images" icon={ImageIcon}>
+                Galería (S3)
               </NavLink>
             )}
           </>

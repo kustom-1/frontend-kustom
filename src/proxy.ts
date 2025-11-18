@@ -13,7 +13,7 @@ if (!JWT_SECRET) {
 
 const SECRET_KEY = new TextEncoder().encode(JWT_SECRET);
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
     const { pathname } = req.nextUrl;
     const token = req.cookies.get("kustom_token")?.value;
 
@@ -47,6 +47,13 @@ export async function middleware(req: NextRequest) {
         }
     }
 
+    // 2. Proteger todas las rutas del customize
+    if (pathname.startsWith("/customize")) {
+        if (!token) {
+            return NextResponse.redirect(new URL("/login", req.url));
+        }
+    }
+
     // Si está autenticado y va a /login o /register...
     if (token && (pathname.startsWith("/login") || pathname.startsWith("/register"))) {
         try {
@@ -66,5 +73,6 @@ export const config = {
         "/dashboard/:path*",
         "/login",
         "/register",
+        "/customize/:path*"
     ],
 };
