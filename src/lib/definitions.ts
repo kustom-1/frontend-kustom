@@ -200,3 +200,38 @@ export type UpdateRolePermissionDto = Partial<CreateRolePermissionDto>;
 // (La respuesta de los helpers)
 export type ResourceList = string[];
 export type ActionList = string[];
+
+
+// --- Tipos del Personalizador (de la POC) ---
+export type Vector3Tuple = [number, number, number];
+
+export type DecalState = {
+    imageUrl: string | null;
+    position: Vector3Tuple;
+    rotation: Vector3Tuple; // almacenado en grados
+    scale: number; // 0-1+
+    aspectRatio: number; // width / height
+};
+
+export type CustomizationPayload = {
+    baseModel: string;
+    baseColor: string;
+    decal: DecalState | null;
+};
+
+export type SurfacePickResult = {
+    position: Vector3Tuple;
+    rotation: Vector3Tuple; // rotación alineada a la superficie
+};
+
+
+// --- Tipos de Imagen ---
+
+export type CreateImageDto = {
+    url: string,
+    description?: string,
+    cloth?: string,
+    tags: string[],
+    isPublic: boolean,
+    user?: number | null
+}
