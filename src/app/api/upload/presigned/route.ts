@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
         const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 300 });
 
         // URL pública final del archivo (para guardar en BD)
+        console.log("AWS_STORAGE: ", process.env.AWS_STORAGE)
         const fileUrl = `${process.env.AWS_STORAGE}/${uniqueKey}`;
 
         return NextResponse.json({ uploadUrl, fileUrl });

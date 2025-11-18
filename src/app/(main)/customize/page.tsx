@@ -2,10 +2,11 @@
 
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Save, UploadCloud } from "lucide-react";
+import { Save, ShoppingCart, UploadCloud } from "lucide-react";
 
 // Componentes
 import { ShirtCanvas } from "@/components/features/customizer/ShirtCanvas";
@@ -28,12 +29,16 @@ import { Label } from "@/components/ui/label";
 import { imageService } from "@/services/image.service";
 import { clothService } from "@/services/cloth.service";
 import { designService } from "@/services/design.service";
+import { cartService } from "@/services/cart.service";
+import { cartDesignService } from "@/services/cartDesign.service";
 import type {
   DecalState,
   SurfacePickResult,
   CreateDesignDto,
   ImageType,
+  Cart,
 } from "@/lib/definitions";
+import { useAppSelector } from "@/lib/hooks";
 
 // --- HELPERS DE LA POC ---
 const createDefaultDecal = (imageUrl = "/logo.png"): DecalState => ({
@@ -57,6 +62,9 @@ async function measureImageAspectRatio(src: string) {
 console.log("Rendering Customize Page");
 console.log("Nuevo Código");
 export default function CustomizePage() {
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+
   // --- 1. FETCH DATA ---
   const { data: cloths } = useQuery({
     queryKey: ["cloths"],
@@ -69,6 +77,11 @@ export default function CustomizePage() {
   const { data: decals } = useQuery({
     queryKey: ["images", "decal"],
     queryFn: () => imageService.getAll("decal"),
+  });
+  const { data: activeCart } = useQuery<Cart | null>({
+    queryKey: ["activeCart"],
+    queryFn: () => cartService.getActiveCart(),
+    enabled: isAuthenticated, // Only fetch if authenticated
   });
 
   // --- 2. ESTADOS ---
@@ -177,6 +190,85 @@ export default function CustomizePage() {
     onError: () => toast.error("Error al guardar el diseño."),
   });
 
+  const addToCartMutation = useMutation({
+    mutationFn: (data: { designId: number; cartId: number }) =>
+      cartDesignService.addToCart({
+        design: data.designId,
+        cart: data.cartId,
+        quantity: 1,
+      }),
+    onSuccess: () => {
+      toast.success("Diseño añadido al carrito!", {
+        description: "Puedes ajustar la cantidad en tu carrito.",
+      });
+    },
+    onError: (error: any) => {
+      toast.error("Error al añadir al carrito", {
+        description:
+          error.response?.data?.message || "Hubo un problema con CartDesign.",
+      });
+    },
+  });
+
+  const handleSaveAndAddToCart = async (meta: {
+    name: string;
+    description: string;
+  }) => {
+    if (!isAuthenticated || !user || !activeCart) {
+      toast.error(
+        "Debes iniciar sesión y tener un carrito activo para agregar el diseño.",
+        { duration: 5000 }
+      );
+      return;
+    }
+    if (!selectedModel || !selectedDecalImage || !selectedClothId) {
+      toast.error("Selecciona una prenda, modelo 3D y una imagen decal.");
+      return;
+    }
+
+    // A. Create the Design first
+    const designPayload: CreateDesignDto = {
+      name: meta.name,
+      description: meta.description,
+      cloth: Number(selectedClothId),
+      baseModel: selectedModel.id,
+      decalImage: selectedDecalImage.id,
+      baseColor: baseColor,
+      isPublic: true,
+      isActive: true,
+      user: user.id, // BFF will replace/validate, but we pass it for clarity
+      decal: {
+        position: decal.position,
+        rotation: decal.rotation,
+        scale: decal.scale,
+        aspectRatio: decal.aspectRatio,
+      },
+    };
+
+    try {
+      const savedDesign = await designService.create(designPayload);
+
+      // B. Add the newly created Design to the active Cart
+      await addToCartMutation.mutateAsync({
+        designId: savedDesign.id,
+        cartId: activeCart.id,
+      });
+
+      toast.success("¡Diseño añadido al carrito!", {
+        description: "¿Quieres finalizar la compra?",
+        action: {
+          label: "Ir al Carrito",
+          onClick: () => router.push("/cart"), // Redirige al carrito
+        },
+        duration: 5000,
+      });
+      setIsSaveDialogOpen(false); // Close dialog
+    } catch (e) {
+      console.error("Error saving/adding to cart:", e);
+      toast.error("Error fatal en el flujo de guardado y carrito.");
+    }
+  };
+
   const handleSaveDesign = (meta: { name: string; description: string }) => {
     if (!selectedModel || !selectedDecalImage) {
       toast.error("Debes seleccionar un modelo base y una imagen.");
@@ -206,6 +298,7 @@ export default function CustomizePage() {
     };
 
     saveMutation.mutate(payload);
+    handleSaveAndAddToCart(meta);
   };
 
   return (
@@ -229,8 +322,13 @@ export default function CustomizePage() {
         {/* Header Fijo */}
         <div className="p-4 border-b flex items-center justify-between flex-shrink-0">
           <h2 className="font-semibold">Personalizador</h2>
-          <Button size="sm" onClick={() => setIsSaveDialogOpen(true)}>
-            <Save className="w-4 h-4 mr-2" /> Guardar
+          <Button
+            size="sm"
+            onClick={() => setIsSaveDialogOpen(true)}
+            disabled={!isAuthenticated || !activeCart}
+          >
+            <ShoppingCart className="w-4 h-4 mr-2" />
+            {activeCart ? "Guardar y Añadir" : "Cargando Carrito..."}
           </Button>
         </div>
 

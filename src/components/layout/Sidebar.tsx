@@ -55,7 +55,13 @@ function NavLink({
 }
 
 // Componente helper para mostrar el error
-function SidebarError({ error }: { error: any }) {
+function SidebarError({
+  error,
+  className,
+}: {
+  error: any;
+  className?: string;
+}) {
   let title = "Error de permisos";
 
   if (error?.response?.status === 403) {
@@ -63,11 +69,11 @@ function SidebarError({ error }: { error: any }) {
   }
 
   return (
-    <div className="px-4 text-center">
+    <div className={cn("p-4 text-center", className)}>
       <ShieldAlert className="w-6 h-6 mx-auto text-destructive" />
       <p className="mt-2 text-sm font-semibold text-destructive">{title}</p>
       <p className="text-xs text-muted-foreground">
-        No se pudieron cargar tus permisos.
+        No hay permisos suficientes para estar aqui.
       </p>
     </div>
   );
@@ -90,7 +96,7 @@ export function Sidebar() {
           </div>
         )}
 
-        {!isLoading && error && <SidebarError error={error} />}
+        {!isLoading && error && <SidebarError error={error} className="mt-2" />}
 
         {!isLoading && !error && (
           <>
