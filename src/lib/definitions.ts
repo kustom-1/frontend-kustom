@@ -114,6 +114,11 @@ export type AppPermissions = {
     canCreateStock: boolean;
     canUpdateStock: boolean;
     canDeleteStock: boolean;
+
+    // Permisos de Images
+    canReadImages: boolean;
+    canCreateImage: boolean;
+    canDeleteImage: boolean;
 };
 
 // --- Tipos de Categoría ---
@@ -235,3 +240,47 @@ export type CreateImageDto = {
     isPublic: boolean,
     user?: number | null
 }
+
+export type ImageType = {
+    id: number,
+    url: string,
+    user: User | null,
+    tags: string[] | null,
+    isPublic: boolean,
+}
+
+export type UpdateImageDto = Partial<CreateImageDto>;
+
+export type DecalTransform = {
+    scale: number;
+    position: [number, number, number];
+    rotation: [number, number, number];
+    aspectRatio: number;
+};
+
+export type CreateDesignDto = {
+    name: string;       // <-- Añadido según tu requerimiento
+    description?: string; // <-- Añadido según tu requerimiento
+    user: number;       // ID del usuario
+    cloth: number;      // ID de la prenda
+    baseModel: number;  // ID de la imagen (modelo .glb)
+    decalImage: number; // ID de la imagen (decal)
+    decal: DecalTransform;
+    baseColor: string;
+    isPublic: boolean;
+    isActive: boolean;
+};
+
+export type Design = {
+    id: number;
+    name: string;
+    description?: string;
+    user: User;         // Objeto anidado en respuesta
+    cloth: Cloth;       // Objeto anidado
+    baseModel: ImageType;   // Objeto anidado
+    decalImage: ImageType;  // Objeto anidado
+    decal: DecalTransform;
+    baseColor: string;
+    isPublic: boolean;
+    isActive: boolean;
+};

@@ -28,6 +28,7 @@ type ShirtGLTF = {
 };
 
 type ShirtModelProps = {
+  modelUrl: string;
   decal: DecalState | null;
   baseColor: string;
   onSurfacePick?: (result: SurfacePickResult) => void;
@@ -64,12 +65,22 @@ function useEnhancedTexture(mapUrl: string | null) {
 }
 
 // Componente ShirtModel (lógica idéntica)
-function ShirtModel({ decal, baseColor, onSurfacePick }: ShirtModelProps) {
-  const { nodes } = useGLTF("/shirt.glb") as unknown as ShirtGLTF; // <-- Ruta actualizada
+function ShirtModel({
+  modelUrl,
+  decal,
+  baseColor,
+  onSurfacePick,
+}: ShirtModelProps) {
+  const { nodes } = useGLTF(modelUrl) as any;
   const decalTexture = useEnhancedTexture(decal?.imageUrl ?? "/logo.png"); // <-- Ruta actualizada
 
-  const geometry = nodes[SHIRT_MESH_NAME]?.geometry;
-
+  const geometry =
+    (nodes[SHIRT_MESH_NAME] as THREE.Mesh)?.geometry ||
+    (
+      Object.values(nodes).find(
+        (n: any) => n.isMesh && n.geometry
+      ) as THREE.Mesh
+    )?.geometry;
   const shirtSize = useMemo(() => {
     if (!geometry) return null;
     if (!geometry.boundingBox) {
@@ -191,12 +202,14 @@ function ShirtModel({ decal, baseColor, onSurfacePick }: ShirtModelProps) {
 }
 
 type ShirtCanvasProps = {
+  modelUrl: string;
   decal: DecalState | null;
   baseColor: string;
   onSurfacePick?: (result: SurfacePickResult) => void;
 };
 
 export function ShirtCanvas({
+  modelUrl,
   decal,
   baseColor,
   onSurfacePick,
@@ -229,6 +242,7 @@ export function ShirtCanvas({
         <Bounds fit clip observe margin={1.15}>
           <Center top>
             <ShirtModel
+              modelUrl={modelUrl}
               decal={decal}
               baseColor={baseColor}
               onSurfacePick={onSurfacePick}
@@ -259,4 +273,4 @@ export function ShirtCanvas({
   );
 }
 
-useGLTF.preload("/shirt.glb"); // <-- Ruta actualizada
+// useGLTF.preload("/shirt.glb"); // <-- Ruta actualizada

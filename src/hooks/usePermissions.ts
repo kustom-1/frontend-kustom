@@ -26,6 +26,9 @@ const defaultPermissions: AppPermissions = {
     canCreateStock: false,
     canUpdateStock: false,
     canDeleteStock: false,
+    canReadImages: false,
+    canCreateImage: false,
+    canDeleteImage: false,
 };
 
 /**

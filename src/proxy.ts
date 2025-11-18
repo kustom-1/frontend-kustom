@@ -47,6 +47,13 @@ export async function proxy(req: NextRequest) {
         }
     }
 
+    // 2. Proteger todas las rutas del customize
+    if (pathname.startsWith("/customize")) {
+        if (!token) {
+            return NextResponse.redirect(new URL("/login", req.url));
+        }
+    }
+
     // Si está autenticado y va a /login o /register...
     if (token && (pathname.startsWith("/login") || pathname.startsWith("/register"))) {
         try {
@@ -66,5 +73,6 @@ export const config = {
         "/dashboard/:path*",
         "/login",
         "/register",
+        "/customize/:path*"
     ],
 };

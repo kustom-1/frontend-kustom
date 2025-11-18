@@ -445,7 +445,7 @@ export default function LandingPage() {
               asChild
               className="text-lg shadow-lg shadow-primary/20"
             >
-              <Link href="/register">Empieza a Crear Gratis</Link>
+              <Link href="/customize">Empieza a Crear Gratis</Link>
             </Button>
           </AnimatedButton>
         </div>

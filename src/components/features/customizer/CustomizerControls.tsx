@@ -230,19 +230,21 @@ export function CustomizerControls({
       </Card>
 
       {/* --- Payload --- */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Payload (Debug)</CardTitle>
-          <CardDescription>
-            Este JSON se enviará a la API de `/designs`.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <pre className="max-h-40 overflow-auto rounded-lg bg-muted p-3 font-mono text-xs text-muted-foreground">
-            {payloadPreview}
-          </pre>
-        </CardContent>
-      </Card>
+      {payloadPreview && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Payload (Debug)</CardTitle>
+            <CardDescription>
+              Este JSON se enviará a la API de `/designs`.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <pre className="max-h-40 overflow-auto rounded-lg bg-muted p-3 font-mono text-xs text-muted-foreground">
+              {payloadPreview}
+            </pre>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }
