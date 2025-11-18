@@ -284,3 +284,52 @@ export type Design = {
     isPublic: boolean;
     isActive: boolean;
 };
+
+// --- Tipos de Carrito (Carts) ---
+export type Cart = {
+    id: number;
+    user: { id: number }; // Assuming User info is simplified here
+    isActive: boolean;
+};
+
+export type CreateCartDto = {
+    user: number;
+    isActive?: boolean; // Defaults to true
+};
+
+export type UpdateCartDto = Partial<CreateCartDto>;
+
+// --- Tipos de Diseño en Carrito (CartDesign) ---
+export type CartDesign = {
+    id: number;
+    design: Design; // Assumed structure based on other APIs
+    cart: Cart;
+    quantity: number;
+    subtotal: number;
+};
+
+export type CreateCartDesignDto = {
+    design: number; // ID del diseño
+    cart: number;   // ID del carrito activo
+    quantity?: number; // Defaults to 1
+};
+
+export type UpdateCartDesignDto = {
+    quantity: number;
+};
+
+
+export type CartDesignItem = {
+    // Note: The CartDesign endpoint seems to return the full Design object
+    id: number,
+    design: Design;
+    quantity: number;
+    subtotal: number;
+};
+
+export type CartWithDesignsDto = {
+    cart: Cart; // Cart details
+    designs: CartDesignItem[]; // List of line items
+    totalDesigns: number;
+    totalAmount: number;
+};

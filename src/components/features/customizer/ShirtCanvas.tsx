@@ -1,5 +1,7 @@
 // src/components/features/customizer/ShirtCanvas.tsx
 
+/// <reference types="@react-three/fiber" />
+
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
@@ -238,7 +240,6 @@ export function ShirtCanvas({
         <ambientLight intensity={0.35} />
         <directionalLight position={[4, 6, 4]} intensity={0.8} castShadow />
         <directionalLight position={[-3, 4, 2]} intensity={0.4} />
-        <Environment preset="city" background={false} />
         <Bounds fit clip observe margin={1.15}>
           <Center top>
             <ShirtModel
