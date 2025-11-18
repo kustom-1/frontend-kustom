@@ -14,6 +14,18 @@ const defaultPermissions: AppPermissions = {
     canManageUserRoles: false,
     canReadRoles: false,
     canUpdateRoles: false,
+    canReadCategories: false,
+    canCreateCategory: false,
+    canUpdateCategory: false,
+    canDeleteCategory: false,
+    canReadCloths: false,
+    canCreateCloth: false,
+    canUpdateCloth: false,
+    canDeleteCloth: false,
+    canReadStocks: false,
+    canCreateStock: false,
+    canUpdateStock: false,
+    canDeleteStock: false,
 };
 
 /**

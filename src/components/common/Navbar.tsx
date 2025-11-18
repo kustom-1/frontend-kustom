@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { authService } from "@/services/auth.service";
 import { logoutUser } from "@/store/slices/authSlice";
+import { LayoutDashboard, LogOut } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -34,32 +35,58 @@ export default function Navbar() {
   const renderAuthLinks = () => {
     if (loading) {
       return (
-        <div className="flex items-center gap-4">
-          <Skeleton className="h-8 w-24 rounded-md" />
-          <Skeleton className="h-10 w-24 rounded-md" />
+        <div className="flex items-center gap-3">
+          <Skeleton className="h-8 w-20 rounded-md" />
+          <Skeleton className="h-10 w-10 rounded-full" />
         </div>
       );
     }
 
     if (isAuthenticated && user) {
       return (
-        <div className="flex items-center gap-4">
-          {/* * AJUSTE 1: Añadido 'font-medium' para igualar el peso del texto de los botones.
-           */}
-          <span className="text-sm font-medium text-muted-foreground">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <span className="hidden sm:inline text-sm font-medium text-muted-foreground">
             Hola, {user.firstName}
           </span>
-          {/* * AJUSTE 2: Añadido 'className' para forzar el color del texto.
-           */}
-          <Button variant="ghost" asChild className="text-muted-foreground">
-            <Link href="/dashboard">Dashboard</Link>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="sm:hidden text-muted-foreground"
+            asChild
+            aria-label="Ir al dashboard"
+          >
+            <Link href="/dashboard">
+              <LayoutDashboard className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button
+            variant="ghost"
+            className="hidden sm:inline-flex text-muted-foreground"
+            asChild
+          >
+            <Link href="/dashboard">
+              <LayoutDashboard className="h-4 w-4" />
+              <span className="ml-2">Dashboard</span>
+            </Link>
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            size="icon"
+            className="sm:hidden text-muted-foreground"
+            aria-label="Cerrar sesión"
+          >
+            <LogOut className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             onClick={handleLogout}
-            className="text-muted-foreground" // <-- AJUSTE 2
+            className="hidden sm:inline-flex text-muted-foreground"
           >
-            Cerrar Sesión
+            <LogOut className="h-4 w-4" />
+            <span className="ml-2">Cerrar sesión</span>
           </Button>
         </div>
       );
@@ -83,11 +110,13 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex items-center justify-between p-4 px-8 border-b bg-background">
-      <Link href="/" className="text-2xl font-bold text-primary">
-        Kustom.
-      </Link>
-      {renderAuthLinks()}
-    </nav>
+    <div className="sticky top-0 z-30 bg-background/80 backdrop-blur border-b">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-8 md:py-0 md:h-[60px]">
+        <Link href="/" className="text-2xl font-bold text-primary">
+          Kustom
+        </Link>
+        {renderAuthLinks()}
+      </nav>
+    </div>
   );
 }

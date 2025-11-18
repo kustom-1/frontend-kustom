@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import React from "react";
 import { AppProviders } from "@/components/providers/AppProviders"; // 1. Importar el nuevo wrapper
-import { Toaster } from "@/components/ui/sonner"; // 2. Añadido para notificaciones
 import Navbar from "@/components/common/Navbar"; // 3. Añadido para la UI base
 import "@/styles/globals.css";
 
@@ -28,7 +27,6 @@ export default function RootLayout({
         <AppProviders>
           <Navbar />
           <main>{children}</main>
-          <Toaster position="top-right" richColors />
         </AppProviders>
       </body>
     </html>

@@ -91,12 +91,112 @@ export type AppPermissions = {
     canCreateUser: boolean;
     canUpdateUser: boolean;
     canDeleteUser: boolean;
-    // Regla de negocio especial
     canManageUserRoles: boolean;
 
-    // Permisos de Roles (futuro)
+    // Permisos de Roles
     canReadRoles: boolean;
     canUpdateRoles: boolean;
 
-    // ...
+    // Permisos de Categorías
+    canReadCategories: boolean;
+    canCreateCategory: boolean;
+    canUpdateCategory: boolean;
+    canDeleteCategory: boolean;
+
+    // Permisos de Prendas
+    canReadCloths: boolean;
+    canCreateCloth: boolean;
+    canUpdateCloth: boolean;
+    canDeleteCloth: boolean;
+
+    // Permisos de Stocks
+    canReadStocks: boolean;
+    canCreateStock: boolean;
+    canUpdateStock: boolean;
+    canDeleteStock: boolean;
 };
+
+// --- Tipos de Categoría ---
+export type Category = {
+    id: number;
+    name: string;
+    description?: string;
+};
+
+export type CreateCategoryDto = {
+    name: string;
+    description?: string;
+};
+
+
+// --- Tipos de Prendas (Cloths) ---
+
+export type Cloth = {
+    id: number;
+    name: string;
+    category: Category; // ID de la categoría
+    basePrice?: number;
+    description?: string;
+    modelUrl?: string;
+};
+
+// (Basado en CreateClothDto del OAS)
+export type CreateClothDto = {
+    name: string;
+    category: number | string; // ID de la categoría
+    basePrice?: number;
+    description?: string;
+    modelUrl?: string;
+};
+
+// (Basado en UpdateClothDto del OAS, que está vacío)
+export type UpdateClothDto = Partial<CreateClothDto>;
+
+// --- Tipos de Stock ---
+// (Basado en CreateStockDto del OAS)
+export type CreateStockDto = {
+    gender?: string;
+    color?: string;
+    size?: string;
+    stock: number;
+    cloth: number; // ID de la Prenda
+};
+
+// (Asumimos que el DTO de respuesta es similar)
+export type Stock = {
+    id: number;
+    gender?: string;
+    color?: string;
+    size?: string;
+    stock: number;
+    cloth: Cloth; // <-- Asumimos que la respuesta trae el objeto 'Cloth' anidado
+};
+
+export type UpdateStockDto = Partial<CreateStockDto>;
+
+// --- Tipos de Permisos de Roles ---
+
+// (Basado en el ejemplo 'detailedPermissions' que me diste)
+export type RolePermission = {
+    id: number;
+    role: UserRole;
+    resource: string;
+    action: string;
+    effect: 'allow' | 'deny';
+    // ... (otros campos como 'conditions', 'isActive' pueden existir)
+};
+
+// (Inferido de los endpoints: el cuerpo para POST)
+export type CreateRolePermissionDto = {
+    role: UserRole;
+    resource: string;
+    action: string;
+    effect?: 'allow' | 'deny';
+};
+
+// (Inferido de los endpoints: el cuerpo para PUT)
+export type UpdateRolePermissionDto = Partial<CreateRolePermissionDto>;
+
+// (La respuesta de los helpers)
+export type ResourceList = string[];
+export type ActionList = string[];
