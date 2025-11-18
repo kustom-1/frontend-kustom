@@ -173,3 +173,30 @@ export type Stock = {
 };
 
 export type UpdateStockDto = Partial<CreateStockDto>;
+
+// --- Tipos de Permisos de Roles ---
+
+// (Basado en el ejemplo 'detailedPermissions' que me diste)
+export type RolePermission = {
+    id: number;
+    role: UserRole;
+    resource: string;
+    action: string;
+    effect: 'allow' | 'deny';
+    // ... (otros campos como 'conditions', 'isActive' pueden existir)
+};
+
+// (Inferido de los endpoints: el cuerpo para POST)
+export type CreateRolePermissionDto = {
+    role: UserRole;
+    resource: string;
+    action: string;
+    effect?: 'allow' | 'deny';
+};
+
+// (Inferido de los endpoints: el cuerpo para PUT)
+export type UpdateRolePermissionDto = Partial<CreateRolePermissionDto>;
+
+// (La respuesta de los helpers)
+export type ResourceList = string[];
+export type ActionList = string[];
