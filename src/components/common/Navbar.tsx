@@ -111,7 +111,7 @@ export default function Navbar() {
 
   return (
     <div className="sticky top-0 z-60 bg-background/80 backdrop-blur border-b">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-8 md:py-0 md:h-[60px]">
+      <nav className="flex w-full items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-0 md:h-[60px]">
         <Link href="/" className="text-2xl font-bold text-primary">
           Kustom
         </Link>
