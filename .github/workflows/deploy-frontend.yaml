@@ -43,6 +43,8 @@ jobs:
       install_command: npm ci
       min_healthy_percentage: 50
       instance_warmup: 300
+      isNext: true
+      static_assets_bucket_name: static-assets
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
