@@ -172,8 +172,8 @@ function AnimatedParagraph({ text }: { text: string }) {
   return (
     <p
       ref={(el) => {
-        ref(el); // para useInView
-        pRef.current = el; // para anime
+        ref(el);
+        pRef.current = el;
       }}
       className="text-xl md:text-2xl mb-8 max-w-2xl text-white/90 opacity-0 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
     >
@@ -306,7 +306,7 @@ function AnimatedIconCard({
   index: number;
 }) {
   const { ref, inView } = useInView({
-    triggerOnce: false, // 👈 se re-animará cada vez que entre
+    triggerOnce: false,
     threshold: 0.2,
   });
 
@@ -316,7 +316,6 @@ function AnimatedIconCard({
     if (!cardRef.current) return;
 
     if (inView) {
-      // ✨ Animación de entrada, suave
       animate(cardRef.current, {
         opacity: [0, 1],
         y: [24, 0],
@@ -326,7 +325,6 @@ function AnimatedIconCard({
         delay: index * 140,
       });
     } else {
-      // 🔁 Estado “reposo” al salir, sin desaparecer del todo
       animate(cardRef.current, {
         opacity: 0.7,
         y: 12,
@@ -457,18 +455,18 @@ export default function LandingPage() {
       <div className="h-screen" />
 
       {/* Features Section */}
-      <section className="sticky top-15 z-10 h-[calc(100vh-1.6rem)] py-12 px-4 bg-background -mt-8 mb-4 flex items-center">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold">
+      <section className="sticky top-[60px] z-10 h-[calc(100vh)] py-8 md:py-12 px-4 bg-background  -mt-8 overflow-y-auto md:overflow-hidden">
+        <div className="container mx-auto w-full md:h-full md:flex md:flex-col md:justify-center">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold px-4">
               Todo lo que necesitas para ser único
             </h2>
-            <p className="text-xl text-muted-foreground mt-4 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-3xl mx-auto px-4">
               Nuestra plataforma te da el poder de diseñar sin esfuerzo y con
               resultados espectaculares.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 pb-8 md:pb-0">
             {features.map((feature, index) => (
               <FeatureCard key={index} {...feature} index={index} />
             ))}
@@ -477,18 +475,18 @@ export default function LandingPage() {
       </section>
 
       {/* Gallery Section */}
-      <section className="sticky top-15 z-20 h-[calc(100vh-1.6rem)] py-12 px-4 bg-accent backdrop-blur-sm -mt-8 flex items-center">
-        <div className="container mx-auto pb-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold">
+      <section className="sticky top-[60px] z-20 h-[calc(100vh)] py-8 md:py-12 px-4 bg-accent/95 backdrop-blur-sm  -mt-8 overflow-y-auto md:overflow-hidden">
+        <div className="container mx-auto w-full md:h-full md:flex md:flex-col md:justify-center">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold px-4">
               Tu Imaginación es el Límite
             </h2>
-            <p className="text-xl text-muted-foreground mt-4 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground mt-4 max-w-3xl mx-auto px-4">
               Inspírate con algunos de los diseños creados por nuestra
               comunidad.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 pb-8 md:pb-0">
             {galleryItems.map((item, index) => (
               <GalleryCard key={item.id} item={item} index={index} />
             ))}
@@ -497,18 +495,18 @@ export default function LandingPage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="sticky top-15 z-30 h-[calc(100vh-1.6rem)] py-12 px-4 bg-background -mt-8 flex items-center">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+      <section className="sticky top-[60px] z-30 h-[calc(100vh)] py-8 md:py-12 px-4 bg-background  -mt-8 overflow-y-auto md:overflow-hidden">
+        <div className="container mx-auto max-w-6xl w-full md:h-full md:flex md:flex-col md:justify-center">
+          <div className="text-center mb-8 md:mb-10">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 px-4">
               ¿Listo para dar vida a tus ideas?
             </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto px-4">
               Únete a miles de creadores que ya están diseñando productos únicos
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-10">
             <AnimatedIconCard
               icon={Zap}
               title="Rápido y Fácil"
@@ -529,8 +527,12 @@ export default function LandingPage() {
             />
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Button size="lg" asChild className="text-lg px-8 py-6 group">
+          <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center px-4 pb-8 md:pb-0">
+            <Button
+              size="lg"
+              asChild
+              className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 group w-full sm:w-auto"
+            >
               <Link href="/register" className="flex items-center gap-2">
                 Comienza Gratis
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -540,7 +542,7 @@ export default function LandingPage() {
               size="lg"
               variant="outline"
               asChild
-              className="text-lg px-8 py-6"
+              className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 w-full sm:w-auto"
             >
               <Link href="/gallery">Ver Galería</Link>
             </Button>
@@ -549,9 +551,9 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-40 py-8 px-4 border-t border-border/20 bg-card/50 backdrop-blur-sm">
+      <footer className="relative z-40 py-6 md:py-8 px-4 border-t border-border/20 bg-card/95 backdrop-blur-sm">
         <div className="container mx-auto text-center text-muted-foreground">
-          <p>
+          <p className="text-sm md:text-base">
             &copy; {new Date().getFullYear()} Kustom. Todos los derechos
             reservados.
           </p>
