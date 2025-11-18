@@ -21,7 +21,13 @@ export async function POST(req: NextRequest) {
 
         // Crear un nombre único: timestamp-filename_limpio
         const cleanName = filename.replace(/[^a-zA-Z0-9.]/g, "_");
-        const uniqueKey = `${Date.now()}-${cleanName}`;
+
+        let assetType = "images";
+        if (fileType == "model/gltf-binary") {
+            assetType = "models"
+        }
+
+        const uniqueKey = `assets/${assetType}/${Date.now()}-${cleanName}`;
 
         const command = new PutObjectCommand({
             Bucket: BUCKET_NAME,
@@ -33,7 +39,7 @@ export async function POST(req: NextRequest) {
         const uploadUrl = await getSignedUrl(s3Client, command, { expiresIn: 300 });
 
         // URL pública final del archivo (para guardar en BD)
-        const fileUrl = `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${uniqueKey}`;
+        const fileUrl = `${process.env.AWS_STORAGE}/${uniqueKey}`;
 
         return NextResponse.json({ uploadUrl, fileUrl });
 
