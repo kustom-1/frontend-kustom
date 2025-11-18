@@ -3,7 +3,7 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Icosahedron, Torus } from "@react-three/drei";
 import { useRef, useEffect, Suspense, useState } from "react";
-import { Group, Color } from "three";
+import { Group, Color, Vector2 } from "three";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { animate, stagger } from "animejs";
@@ -14,7 +14,7 @@ import { easing } from "maath";
 
 function Animated3DScene() {
   const meshRef = useRef<Group>(null!);
-  const { mouse } = useThree();
+  const { pointer } = useThree();
   const [colors, setColors] = useState({
     primary: new Color(0x37352f),
     accent: new Color(0xf7f6f3),
@@ -56,13 +56,13 @@ function Animated3DScene() {
       meshRef.current.rotation.x += delta * 0.03;
     }
 
-    // Mover la cámara ligeramente con el mouse para un efecto parallax
+    // Mover la cámara ligeramente con el pointer para un efecto parallax
     easing.damp3(
       state.camera.position,
       [
-        Math.sin(mouse.x * Math.PI) * 2,
-        mouse.y * 2,
-        Math.cos(mouse.x * Math.PI) * 2 + 8,
+        Math.sin(pointer.x * Math.PI) * 2,
+        pointer.y * 2,
+        Math.cos(pointer.x * Math.PI) * 2 + 8,
       ],
       0.2,
       delta
@@ -258,49 +258,28 @@ function FeatureCard({
   );
 }
 
-// Datos de ejemplo para la galería
+// Datos de ejemplo para la galería con productos personalizados reales
 const galleryItems = [
   {
     id: 1,
-    title: "Taza Personalizada Galaxia",
+    title: "Japon al alcance un click",
     image:
-      "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=500&h=500&fit=crop",
-    description: "Diseño de galaxia en tonos morados y azules",
+      "https://images.unsplash.com/photo-1627913363993-95b23378265e?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "Kustom Osaka t-shirt",
   },
   {
     id: 2,
-    title: "Camiseta Geométrica",
+    title: "Camiseta con Diseño Único",
     image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop",
-    description: "Patrón geométrico minimalista",
+      "https://images.unsplash.com/photo-1627913364248-344231dd2451?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "Impresión DTG de gran detalle y creatividad",
   },
   {
     id: 3,
-    title: "Funda Floral Vintage",
+    title: "Máxima calidad",
     image:
-      "https://images.unsplash.com/photo-1556656793-08538906a9f8?w=500&h=500&fit=crop",
-    description: "Estampado floral con estilo retro",
-  },
-  {
-    id: 4,
-    title: "Sudadera Abstracta",
-    image:
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&h=500&fit=crop",
-    description: "Arte abstracto en colores vibrantes",
-  },
-  {
-    id: 5,
-    title: "Gorra Urbana",
-    image:
-      "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&h=500&fit=crop",
-    description: "Diseño urbano con tipografía moderna",
-  },
-  {
-    id: 6,
-    title: "Botella Naturaleza",
-    image:
-      "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500&h=500&fit=crop",
-    description: "Ilustración de paisaje natural",
+      "https://images.unsplash.com/photo-1627913364116-f553103253a2?q=80&w=1480&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    description: "Texto personalizado, colores contrastantes para destacar",
   },
 ];
 
@@ -318,7 +297,7 @@ export default function LandingPage() {
             </Canvas>
           </Suspense>
         </div>
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center p-4 bg-gradient-to-b from-black/40 via-black/30 to-black/50">
+        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center p-4 bg-linear-to-b from-black/40 via-black/30 to-black/50">
           <AnimatedTitle text="Crea, Visualiza, Materializa." />
           <AnimatedParagraph text="Transforma tus ideas en productos reales. Personaliza con la magia de la IA y visualiza tus diseños en 3D al instante." />
           <AnimatedButton>
@@ -374,7 +353,7 @@ export default function LandingPage() {
                     alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                     <div className="text-white">
                       <h3 className="font-bold text-lg">{item.title}</h3>
                       <p className="text-sm text-white/80">
